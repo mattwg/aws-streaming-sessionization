@@ -17,7 +17,7 @@ def create_clickstream(sessions=10,
         hit_timestamp = start_time + datetime.timedelta(seconds=span)
 
         for h in range(0,random.randint(1,10)):
-            page_name = random.choice(['beer_vitrine_nav','registration_success','beer_checkout','beer_product_detail','beer_products','beer_selection','beer_cart'])
+            page_name = random.choice(['homepage','registration_success','checkout','product_detail','search_results','signin','add_to_cart'])
             hit_timestamp = hit_timestamp +  datetime.timedelta(seconds=random.randint(1,20))
 
             data = {}
@@ -56,12 +56,12 @@ def replay_clickstream_firehose(clickstream, region_name, delivery_stream, speed
         if seconds_to_next_hit > 0:
             sleep(seconds_to_next_hit/speed)
         current_time = next_hit_time
-        firehose.put_record(DeliveryStreamName=delivery_stream,Record={'Data':str(hit)})
+        firehose.put_record(DeliveryStreamName=delivery_stream,Record={'Data':str(hit)+'\n'})
 
-cs = create_clickstream(sessions=5,
+cs = create_clickstream(sessions=100,
     start_time=datetime.datetime(2019,1,1,0,0),
     end_time=datetime.datetime(2019,1,1,0,2))
 
-replay_clickstream_local(cs,4)
+#replay_clickstream_local(cs,4)
 
-replay_clickstream_firehose(cs,'us-east-1','clickstream-firehose',4)
+replay_clickstream_firehose(cs,'us-east-1','clickstream-firehose',1)
