@@ -34,10 +34,10 @@ def create_clickstream(sessions=10,
 def replay_clickstream_local(clickstream, speed=1.0):
     # replays the clickstream starting now at the required speed
     now = datetime.datetime.now()
-    current_time = datetime.datetime.strptime(clickstream[1]['hit_timestamp'],"%Y-%m-%dT%H:%M:%S")
+    current_time = datetime.datetime.strptime(clickstream[1]['hit_timestamp'],"%Y-%m-%d %H:%M:%S")
     # iterate through the ordered clickstream
     for hit in clickstream:
-        next_hit_time = datetime.datetime.strptime(hit['hit_timestamp'],"%Y-%m-%dT%H:%M:%S")
+        next_hit_time = datetime.datetime.strptime(hit['hit_timestamp'],"%Y-%m-%d %H:%M:%S")
         seconds_to_next_hit = (next_hit_time-current_time).total_seconds()
         if seconds_to_next_hit > 0:
             sleep(seconds_to_next_hit/speed)
@@ -48,10 +48,10 @@ def replay_clickstream_firehose(clickstream, region_name, delivery_stream, speed
     # replays the clickstream starting now at the required speed
     firehose = boto3.client('firehose', region_name=region_name)
     now = datetime.datetime.now()
-    current_time = datetime.datetime.strptime(clickstream[1]['hit_timestamp'],"%Y-%m-%dT%H:%M:%S")
+    current_time = datetime.datetime.strptime(clickstream[1]['hit_timestamp'],"%Y-%m-%d %H:%M:%S")
     # iterate through the ordered clickstream
     for hit in clickstream:
-        next_hit_time = datetime.datetime.strptime(hit['hit_timestamp'],"%Y-%m-%dT%H:%M:%S")
+        next_hit_time = datetime.datetime.strptime(hit['hit_timestamp'],"%Y-%m-%d %H:%M:%S")
         seconds_to_next_hit = (next_hit_time-current_time).total_seconds()
         if seconds_to_next_hit > 0:
             sleep(seconds_to_next_hit/speed)
