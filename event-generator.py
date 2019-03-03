@@ -24,7 +24,7 @@ def create_clickstream(sessions=10,
             data['visitor_id'] = visitor_id
             data['device_id'] = device_id
             data['page_name'] = page_name
-            data['hit_timestamp'] = hit_timestamp.isoformat()
+            data['hit_timestamp'] = hit_timestamp.isoformat(sep=' ')
 
             clickstream.append(data)
             sorted_clickstream = sorted(clickstream, key=operator.itemgetter('hit_timestamp'))
